@@ -1,21 +1,23 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'home.dart';
+import 'home_screen.dart';
 
-List<CameraDescription> cameras;
+late final List<CameraDescription> cameras;
 
-Future<Null> main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     cameras = await availableCameras();
   } on CameraException catch (e) {
-    print('Error: $e.code\nError Message: $e.message');
+    debugPrint('Error: $e.code\nError Message: $e.message');
   }
-  runApp(new MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
-      home: HomePage(cameras),
+      home: HomeScreen(cameras),
     );
   }
 }

@@ -10,55 +10,68 @@ class BndBox extends StatelessWidget {
   final double screenW;
   final String model;
 
-  BndBox(this.results, this.previewH, this.previewW, this.screenH, this.screenW,
-      this.model);
+  const BndBox(
+    this.results,
+    this.previewH,
+    this.previewW,
+    this.screenH,
+    this.screenW,
+    this.model, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _renderBoxes() {
+    List<Widget> renderBoxes() {
       return results.map((re) {
-        var _x = re["rect"]["x"];
-        var _w = re["rect"]["w"];
-        var _y = re["rect"]["y"];
-        var _h = re["rect"]["h"];
-        var scaleW, scaleH, x, y, w, h;
+        final rect = re["rect"];
+        if (rect == null) return const SizedBox.shrink();
+
+        double xValue = (rect["x"] as num).toDouble();
+        double wValue = (rect["w"] as num).toDouble();
+        double yValue = (rect["y"] as num).toDouble();
+        double hValue = (rect["h"] as num).toDouble();
+        double scaleW, scaleH, x, y, w, h;
 
         if (screenH / screenW > previewH / previewW) {
           scaleW = screenH / previewH * previewW;
           scaleH = screenH;
-          var difW = (scaleW - screenW) / scaleW;
-          x = (_x - difW / 2) * scaleW;
-          w = _w * scaleW;
-          if (_x < difW / 2) w -= (difW / 2 - _x) * scaleW;
-          y = _y * scaleH;
-          h = _h * scaleH;
+          double difW = (scaleW - screenW) / scaleW;
+          x = (xValue - difW / 2) * scaleW;
+          w = wValue * scaleW;
+          if (xValue < difW / 2) w -= (difW / 2 - xValue) * scaleW;
+          y = yValue * scaleH;
+          h = hValue * scaleH;
         } else {
           scaleH = screenW / previewW * previewH;
           scaleW = screenW;
-          var difH = (scaleH - screenH) / scaleH;
-          x = _x * scaleW;
-          w = _w * scaleW;
-          y = (_y - difH / 2) * scaleH;
-          h = _h * scaleH;
-          if (_y < difH / 2) h -= (difH / 2 - _y) * scaleH;
+          double difH = (scaleH - screenH) / scaleH;
+          x = xValue * scaleW;
+          w = wValue * scaleW;
+          y = (yValue - difH / 2) * scaleH;
+          h = hValue * scaleH;
+          if (yValue < difH / 2) h -= (difH / 2 - yValue) * scaleH;
         }
 
+        final confidence = ((re["confidenceInClass"] as num? ?? 0.0) * 100).toStringAsFixed(0);
+        final detectedClass = re["detectedClass"] ?? "Unknown";
+
         return Positioned(
-          left: math.max(0, x),
-          top: math.max(0, y),
+          left: math.max(0.0, x),
+          top: math.max(0.0, y),
           width: w,
           height: h,
           child: Container(
-            padding: EdgeInsets.only(top: 5.0, left: 5.0),
+            padding: const EdgeInsets.only(top: 5.0, left: 5.0),
             decoration: BoxDecoration(
               border: Border.all(
-                color: Color.fromRGBO(37, 213, 253, 1.0),
+                color: const Color.fromRGBO(37, 213, 253, 1.0),
                 width: 3.0,
               ),
             ),
             child: Text(
-              "${re["detectedClass"]} ${(re["confidenceInClass"] * 100).toStringAsFixed(0)}%",
-              style: TextStyle(
+              "$detectedClass $confidence%",
+              style: const TextStyle(
                 color: Color.fromRGBO(37, 213, 253, 1.0),
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
@@ -69,18 +82,20 @@ class BndBox extends StatelessWidget {
       }).toList();
     }
 
-    List<Widget> _renderStrings() {
+    List<Widget> renderStrings() {
       double offset = -10;
       return results.map((re) {
         offset = offset + 14;
+        final label = re["label"] ?? "Unknown";
+        final confidence = ((re["confidence"] as num? ?? 0.0) * 100).toStringAsFixed(0);
         return Positioned(
           left: 10,
           top: offset,
           width: screenW,
           height: screenH,
           child: Text(
-            "${re["label"]} ${(re["confidence"] * 100).toStringAsFixed(0)}%",
-            style: TextStyle(
+            "$label $confidence%",
+            style: const TextStyle(
               color: Color.fromRGBO(37, 213, 253, 1.0),
               fontSize: 14.0,
               fontWeight: FontWeight.bold,
@@ -90,54 +105,56 @@ class BndBox extends StatelessWidget {
       }).toList();
     }
 
-    List<Widget> _renderKeypoints() {
-      var lists = <Widget>[];
-      results.forEach((re) {
-        var list = re["keypoints"].values.map<Widget>((k) {
-          var _x = k["x"];
-          var _y = k["y"];
-          var scaleW, scaleH, x, y;
+    List<Widget> renderKeypoints() {
+      final lists = <Widget>[];
+      for (var re in results) {
+        final keypoints = re["keypoints"];
+        if (keypoints == null) continue;
+        
+        final list = (keypoints as Map).values.map<Widget>((k) {
+          double xValue = (k["x"] as num).toDouble();
+          double yValue = (k["y"] as num).toDouble();
+          double scaleW, scaleH, x, y;
 
           if (screenH / screenW > previewH / previewW) {
             scaleW = screenH / previewH * previewW;
             scaleH = screenH;
-            var difW = (scaleW - screenW) / scaleW;
-            x = (_x - difW / 2) * scaleW;
-            y = _y * scaleH;
+            double difW = (scaleW - screenW) / scaleW;
+            x = (xValue - difW / 2) * scaleW;
+            y = yValue * scaleH;
           } else {
             scaleH = screenW / previewW * previewH;
             scaleW = screenW;
-            var difH = (scaleH - screenH) / scaleH;
-            x = _x * scaleW;
-            y = (_y - difH / 2) * scaleH;
+            double difH = (scaleH - screenH) / scaleH;
+            x = xValue * scaleW;
+            y = (yValue - difH / 2) * scaleH;
           }
+          final part = k["part"] ?? "keypoint";
           return Positioned(
             left: x - 6,
             top: y - 6,
             width: 100,
             height: 12,
-            child: Container(
-              child: Text(
-                "● ${k["part"]}",
-                style: TextStyle(
-                  color: Color.fromRGBO(37, 213, 253, 1.0),
-                  fontSize: 12.0,
-                ),
+            child: Text(
+              "● $part",
+              style: const TextStyle(
+                color: Color.fromRGBO(37, 213, 253, 1.0),
+                fontSize: 12.0,
               ),
             ),
           );
         }).toList();
 
-        lists..addAll(list);
-      });
+        lists.addAll(list);
+      }
 
       return lists;
     }
 
     return Stack(
       children: model == mobilenet
-          ? _renderStrings()
-          : model == posenet ? _renderKeypoints() : _renderBoxes(),
+          ? renderStrings()
+          : model == posenet ? renderKeypoints() : renderBoxes(),
     );
   }
 }
