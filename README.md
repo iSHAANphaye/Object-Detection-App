@@ -1,10 +1,10 @@
-# Antigravity Vision 🚀
+# Spectra Vision 🚀
 
 [![Flutter](https://img.shields.io/badge/Flutter-SDK%20%3E%3D3.0.0-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![TensorFlow Lite](https://img.shields.io/badge/TensorFlow-Lite%20v1.0.1-FF6F00?logo=tensorflow&logoColor=white)](https://tensorflow.org/lite)
 [![Dart](https://img.shields.io/badge/Dart-3-0175C2?logo=dart&logoColor=white)](https://dart.dev)
 
-A modern, high-performance Flutter mobile application featuring real-time, on-device edge intelligence. Powered by TensorFlow Lite, **Antigravity Vision** runs deep learning models locally, rendering bounding boxes, image classification results, and skeletal human pose structures with ultra-low latency and zero cloud dependency.
+A modern, high-performance Flutter mobile application featuring real-time, on-device edge intelligence. Powered by TensorFlow Lite, **Spectra Vision** runs deep learning models locally, rendering bounding boxes, image classification results, and skeletal human pose structures with ultra-low latency and zero cloud dependency.
 
 ---
 

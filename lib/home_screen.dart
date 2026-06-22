@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                           end: Alignment.bottomRight,
                         ).createShader(bounds),
                         child: const Text(
-                          "Antigravity Vision",
+                          "Spectra Vision",
                           style: TextStyle(
                             fontSize: 36,
                             fontWeight: FontWeight.w900,
