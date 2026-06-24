@@ -22,15 +22,12 @@ A modern, high-performance Flutter mobile application featuring real-time, on-de
 
 The application is pre-configured with four lightweight models located in the `assets/` directory:
 
-| Model Name | Task | Disk Size | Latency | Input Resolution | Model File | Description |
-| :--- | :--- | :---: | :---: | :---: | :--- | :--- |
-| **SSD MobileNet v1** | Multi-Object Detection | 4.2 MB | ~30ms | 300 × 300 | `ssd_mobilenet.tflite` | Single Shot Detector with MobileNet backbone. Detects 80 classes. Excellent balance of speed and localization accuracy. |
-| **Tiny YOLOv2** | High-Speed Object Detection | 44.9 MB | ~120ms | 416 × 416 | `yolov2_tiny.tflite` | A compact single-pass regression detector. Has a higher memory footprint but is highly responsive on high-end edge chips. |
-| **MobileNet v1** | Image Classification | 16.9 MB | ~15ms | 224 × 224 | `mobilenet_v1_1.0_224.tflite` | Blazing-fast 1000-class classifier based on ImageNet. Identifies the primary subject without drawing boxes. |
-| **PoseNet** | Human Pose Estimation | 5.0 MB | ~45ms | 257 × 257 | `posenet_mv1_075_float_from_checkpoints.tflite` | Identifies 17 skeletal joint coordinates for posture tracking, fitness evaluation, and motion gaming. |
-
-> [!NOTE]
-> The **SSD MobileNet v1** (`ssd_mobilenet_v1`) model was originally retrieved from `ssd_mobilenet_v1_coco_2017_11_17` and optimized into the TFLite representation (`ssd_mobilenet.tflite`) for this application.
+| Model Name           | Task                        | Disk Size | Latency | Input Resolution | Model File                                      | Description                                                                                                               |
+| :---------------------| :----------------------------| :---------:| :-------:| :----------------:| :------------------------------------------------| :--------------------------------------------------------------------------------------------------------------------------|
+| **SSD MobileNet v1** | Multi-Object Detection      | 4.2 MB    | ~30ms   | 300 × 300        | `ssd_mobilenet.tflite`                          | Single Shot Detector with MobileNet backbone. Detects 80 classes. Excellent balance of speed and localization accuracy.   |
+| **Tiny YOLOv2**      | High-Speed Object Detection | 44.9 MB   | ~120ms  | 416 × 416        | `yolov2_tiny.tflite`                            | A compact single-pass regression detector. Has a higher memory footprint but is highly responsive on high-end edge chips. |
+| **MobileNet v1**     | Image Classification        | 16.9 MB   | ~15ms   | 224 × 224        | `mobilenet_v1_1.0_224.tflite`                   | Blazing-fast 1000-class classifier based on ImageNet. Identifies the primary subject without drawing boxes.               |
+| **PoseNet**          | Human Pose Estimation       | 5.0 MB    | ~45ms   | 257 × 257        | `posenet_mv1_075_float_from_checkpoints.tflite` | Identifies 17 skeletal joint coordinates for posture tracking, fitness evaluation, and motion gaming.                     |
 
 ---
 
